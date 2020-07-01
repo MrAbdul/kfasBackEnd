@@ -49,7 +49,7 @@ router.post('/register', function (req, res) {
         let response = {
             success: 0,
         }
-        res.send(response);
+        res.send(result);
     }
       
     });
