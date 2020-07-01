@@ -34,6 +34,27 @@ router.post('/verify', function (req, res) {
     });
 });
 
+router.post('/register', function (req, res) {
+    loginController.addUser(req.body.user_name, req.body.user_email, req.body.user_pass, req.body.phone_number, req.body.role_id, req.body.height, req.body.weight, req.body.gender, req.body.level_activity, req.body.age, req.body.goal_weight, req.body.medical_conditions, function (err, result) {
+      if (err) throw err;
+      console.log("res"+result["sucess"])
+      if (result["sucess"] ==1) {
+        let token = jwt.sign({ "user_id": result["user_id"], "user_name": result["user_name"], "user_email": result["user_email"] }, privateKey, { algorithm: 'HS256' });
+        let response = {
+            "success": 1,
+            "accesstoken": token
+        }
+        res.send(response);
+    } else {
+        let response = {
+            success: 0,
+        }
+        res.send(response);
+    }
+      
+    });
+  });
+
 // forget password
 // router.post('/forget', function (req, res) {
 //     loginController.forgetPassword(req.body.user_email, function (err, result) {
