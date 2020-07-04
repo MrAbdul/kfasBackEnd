@@ -42,6 +42,7 @@ EmailDao.getEmail(function(err,res){
         console.log(date)
         console.log(Date.now())
         if(date-Date.now()<=7200000&&date-Date.now()>=0){
+            EmailDao.deleteRecord(element.idAppointmentID,function(err,ressult){})
             let mailOptions = {
                 from: 'kfashackathonv1@gmail.com',
                 to: element.PatientEmail,

@@ -25,6 +25,12 @@ module.exports.getEmail=function(callback){
         callback(err,res)
     })
 }
+
+module.exports.deleteRecord=function(id,callback){
+    pool.query("DELETE from Appointment WHERE idAppointmentID="+id,function(err,res){
+        callback(err,res)
+    })
+}
 // // add a user
 // module.exports.addUser = function (user_name, user_email, user_pass, phone_number, role_id, height, weight, gender, level_activity, age, goal_weight, medical_conditions, callback) {
 //     checkEmailSql = "SELECT user_email FROM be_users WHERE user_email = ?;"
