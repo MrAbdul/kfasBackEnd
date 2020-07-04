@@ -1,13 +1,8 @@
 let cron = require('node-cron');
 let nodemailer = require('nodemailer');
-
+let EmailDao = require('../model/EmailDao');
 // e-mail message options
-let mailOptions = {
-      from: 'kfashackathonv1@gmail.com',
-      to: 'mrabdulrahman95@gmail.com',
-      subject: 'Email from Node-App: A Test Message!',
-      text: 'Some content to send'
- };
+
 
 // e-mail transport configuration
 let transporter = nodemailer.createTransport({
@@ -20,15 +15,49 @@ let transporter = nodemailer.createTransport({
       }
   });
 
+
+
+
+module.exports.addAppointment = function (patient, doctor, patientEmail,AppointmentTime, callback) {
+    
+    EmailDao.addAppointment(patient,doctor,patientEmail,AppointmentTime,function(err,result){
+callback(err,result)
+    })
+}
+module.exports.getAll= function(callback){
+    EmailDao.getEmail(function(err,res){
+        callback(err,res)
+    })
+}
+
   module.exports.sendEmail=function(){
 cron.schedule('* * * * *', () => {
+    console.log("crone job  ran")
 // Send e-mail
+EmailDao.getEmail(function(err,res){
+    res.forEach(element => {
+        console.log(element)
+        var date = Date.parse(element.AppointmentTime)
+        // var date1 =  Date(date)
+        console.log(date)
+        console.log(Date.now())
+        if(Date.now()-date<=7200000){
+            let mailOptions = {
+                from: 'kfashackathonv1@gmail.com',
+                to: element.PatientEmail,
+                subject: 'your appointment with Dr'+element.DoctorName,
+                text: 'Some content to send'
+           };
+            transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                  console.log(error);
+                } else {
+                  console.log('Email sent: ' + info.response);
+                }
+            })
+        }
+    });
+ 
+})
 
-transporter.sendMail(mailOptions, function(error, info){
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent: ' + info.response);
-      }
-  })
 });}

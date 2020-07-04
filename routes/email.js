@@ -56,6 +56,27 @@ var EmailController = require('../controller/EmailController');
 router.get('/sendEmail',function(req,res){
     EmailController.sendEmail()
 })
+
+
+router.post('/addApointment', function (req, res) {
+    // const unixTimeZero = Date.parse('01 01 1970 00:00:01 GMT');
+    var date= Date.parse(req.body.month+" "+req.body.day+" "+req.body.year+" "+ req.body.hour+":"+req.body.minute+":"+req.body.sec)
+    var date1 = new Date(date);
+   
+    var date2 =date1.toISOString()
+    EmailController.addAppointment(req.body.patient, req.body.doctor,req.body.patientEmail,date2, function (err, result) {
+        if (err) throw err;
+        res.send(result)
+        
+    });
+});
+
+router.get('/all',function(req,res){
+    EmailController.getAll(function(err,ress){
+        res.send(ress)
+    })
+})
+
 // forget password
 // router.post('/forget', function (req, res) {
 //     loginController.forgetPassword(req.body.user_email, function (err, result) {
