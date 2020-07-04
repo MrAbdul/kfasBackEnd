@@ -41,7 +41,7 @@ EmailDao.getEmail(function(err,res){
         // var date1 =  Date(date)
         console.log(date)
         console.log(Date.now())
-        if(date-Date.now()<=7200000){
+        if(date-Date.now()<=7200000&&date-Date.now()>=0){
             let mailOptions = {
                 from: 'kfashackathonv1@gmail.com',
                 to: element.PatientEmail,
