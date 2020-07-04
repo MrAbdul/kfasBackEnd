@@ -60,7 +60,7 @@ router.get('/sendEmail',function(req,res){
 
 router.post('/addApointment', function (req, res) {
     // const unixTimeZero = Date.parse('01 01 1970 00:00:01 GMT');
-    var date= Date.parse(req.body.month+" "+req.body.day+" "+req.body.year+" "+ req.body.hour+":"+req.body.minute+":"+req.body.sec)
+    var date= Date.parse(req.body.month+" "+req.body.day+" "+req.body.year+" "+ req.body.hour+":"+req.body.minute+":"+req.body.sec+" "+"GMT+3")
     var date1 = new Date(date);
    
     var date2 =date1.toISOString()
